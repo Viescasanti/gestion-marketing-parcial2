@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión de Marketing · 2do Parcial — Mis apuntes (solo lo que entra)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2712%27 fill=%27%23143a5e%27/%3E%3Ctext x=%2732%27 y=%2744%27 font-family=%27Georgia,serif%27 font-size=%2730%27 font-weight=%27700%27 fill=%27%23f3f1ea%27 text-anchor=%27middle%27%3ECE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f3f1ea;--paper-2:#ebe7dc;--ink:#1b2129;--ink-soft:#4b535c;--line:#cbc4b2;
+    --u1:#1b4d8c;--u2:#8c3b1b;--u3:#2f6b3a;--brand:#143a5e;--gold:#c9a44a;--red:#a04a2b;
+    --ok:#1f5a3c;--ok-soft:#dfe8e2;--no:#a04a2b;--no-soft:#f3dcd6;
+    --seguro:#7a5a0e;--seguro-soft:#faf1d9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:"Atkinson Hyperlegible","Segoe UI",Verdana,sans-serif;font-size:17px;line-height:1.58;-webkit-font-smoothing:antialiased;position:relative}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply;opacity:.6}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(243,241,234,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:1100px;margin:0 auto;padding:12px 28px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .nav-brand{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-right:auto;font-weight:700}
+  .chip{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;text-decoration:none;color:var(--ink);border:1.5px solid var(--ink);border-radius:999px;padding:5px 12px;transition:all .18s ease;background:transparent}
+  .chip:hover{background:var(--ink);color:var(--paper);transform:translateY(-2px)}
+
+  header.hero{padding:80px 0 50px;border-bottom:3px solid var(--ink)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  h1{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(44px,8vw,104px);line-height:.92;letter-spacing:-.02em;margin:14px 0 0}
+  h1 em{font-style:italic;font-weight:500;color:var(--brand)}
+  .hero-meta{display:flex;gap:36px;flex-wrap:wrap;margin-top:34px;font-family:"JetBrains Mono",monospace;font-size:13px}
+  .hero-meta b{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin-bottom:4px}
+  .hero-meta span{font-size:20px;font-family:"Fraunces",serif;font-weight:600;color:var(--ink)}
+  .hero-lead{max-width:760px;margin-top:30px;font-size:20px;color:var(--ink-soft);line-height:1.5}
+  .hero-lead b{color:var(--ink);font-weight:700}
+  .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+  .lvl{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:3px 10px;border:1.5px solid}
+  .lvl.s{color:var(--seguro);border-color:var(--seguro);background:var(--seguro-soft)}
+  .lvl.m{color:var(--u1);border-color:var(--u1);background:#e6edf8}
+  .lvl.p{color:var(--ink-soft);border-color:var(--ink-soft);background:#fff}
+
+  section.unit{padding:60px 0;border-bottom:1px solid var(--line)}
+  .unit-head{display:flex;align-items:baseline;gap:20px;margin-bottom:14px}
+  .unit-num{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(60px,11vw,130px);line-height:.8;color:var(--accent);opacity:.9;letter-spacing:-.04em}
+  .unit-titles .u-kicker{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .unit-titles h2{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(28px,4.5vw,48px);line-height:1.02;letter-spacing:-.01em;margin-top:6px}
+  .unit-weight{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--accent);border-radius:999px;padding:4px 11px;display:inline-block;margin-bottom:26px}
+
+  .card{background:var(--paper-2);border:1.5px solid var(--line);border-radius:14px;padding:24px 28px;margin-bottom:18px;position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent)}
+  .h-main{font-family:"Fraunces",serif;font-weight:600;font-size:23px;margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .h-main .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);flex:none}
+  .h-main .tag{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1.5px solid var(--accent);border-radius:999px;padding:3px 9px}
+  .h-sub{font-family:"Fraunces",serif;font-weight:600;font-size:18px;color:var(--accent);margin:20px 0 6px;text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px}
+  .def{margin-bottom:4px}
+  .def b{font-weight:700}
+  .simple{font-size:15.5px;color:var(--ink-soft);margin:4px 0 6px;padding-left:14px;border-left:3px solid var(--line)}
+  .simple b{font-weight:700;color:var(--ink)}
+  .simple > b:first-child{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+  .fbox{font-family:"Fraunces",serif;font-weight:600;font-size:20px;text-align:center;background:var(--accent);color:#fff;border-radius:11px;padding:14px 18px;margin:14px 0;line-height:1.35}
+  .fbox small{display:block;font-family:"Atkinson Hyperlegible",sans-serif;font-weight:400;font-size:13px;opacity:.92;margin-top:6px}
+
+  ul{list-style:none;margin-top:6px}
+  ul li{padding:5px 0 5px 24px;position:relative}
+  ul li::before{content:"–";position:absolute;left:4px;color:var(--accent);font-weight:700}
+  ul li b{font-weight:700}
+  ul.sub{margin:2px 0 2px 24px}
+  ul.sub li{font-size:15.5px;color:var(--ink-soft)}
+
+  ol{list-style:none;counter-reset:s;margin-top:6px}
+  ol li{counter-increment:s;padding:5px 0 5px 36px;position:relative}
+  ol li::before{content:counter(s);position:absolute;left:0;top:6px;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:12px;background:var(--accent);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:920px){.grid3{grid-template-columns:1fr 1fr}}
+  @media(max-width:720px){.grid2,.grid3{grid-template-columns:1fr}.unit-head{flex-direction:column;gap:6px}.wrap{padding:0 18px}.nav-inner,.nav-chips{padding-left:18px;padding-right:18px}.fbox{font-size:16px;padding:12px 10px}.card{padding:20px 18px}.fgrid{grid-template-columns:1fr}.tbl-scroll table.eco{min-width:560px}}
+
+  .mini{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:16px 18px}
+  .mini b{font-family:"Fraunces",serif;font-weight:600;color:var(--accent)}
+  .mini ul{margin-top:4px}
+  .mini ul li{padding:3px 0 3px 20px;font-size:15.5px}
+  .mini.danger{border-color:var(--no);background:var(--no-soft)}
+  .mini.danger b,.mini.danger ul li::before{color:var(--no)}
+  .mini.okk{border-color:var(--ok);background:var(--ok-soft)}
+  .mini.okk b,.mini.okk ul li::before{color:var(--ok)}
+  .mini .num{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.1em;display:block;margin-bottom:2px}
+  .mini .hint{display:block;margin-top:8px;font-size:14px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:6px}
+  .mini .hint b{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+
+  table.eco{width:100%;border-collapse:collapse;font-size:15px;margin-top:10px}
+  table.eco th{background:var(--accent);color:#fff;padding:8px 10px;text-align:left;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase}
+  table.eco td{padding:7px 10px;border-bottom:1px solid var(--line);background:#fff;vertical-align:top}
+  table.eco tr:nth-child(even) td{background:var(--paper)}
+  table.eco td b{font-weight:700}
+  table.eco td.soft{color:var(--ink-soft);font-size:14px}
+  table.eco td.num{text-align:right;font-family:"JetBrains Mono",monospace;font-size:14px;white-space:nowrap}
+  .tbl-scroll{overflow-x:auto}
+  .mono{font-family:"JetBrains Mono",monospace;font-size:.92em}
+
+  .note{background:#fff;border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 16px;font-size:15px;color:var(--ink-soft);margin-top:12px}
+  .note b{color:var(--ink)}
+  .star{background:#fff;border:2px solid var(--gold);border-radius:12px;padding:14px 18px;margin-top:14px}
+  .star .lbl{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8a6a1c;display:block;margin-bottom:5px}
+  .star ul li::before{color:#8a6a1c}
+  .quote{font-family:"Fraunces",serif;font-style:italic;font-weight:500;font-size:16.5px;color:var(--ink-soft);border-left:3px solid var(--gold);padding:6px 14px;margin:10px 0 4px}
+  .quote b{font-style:normal;color:var(--ink)}
+  .chain{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 6px;font-family:"JetBrains Mono",monospace;font-size:12.5px;font-weight:700}
+  .chain span{background:#fff;border:1.5px solid var(--accent);color:var(--accent);border-radius:8px;padding:5px 10px}
+  .chain i{font-style:normal;color:var(--ink-soft)}
+  .chain span.soft{border-style:dashed;color:var(--ink-soft)}
+  details.ej{background:#fff;border:1.5px dashed var(--line);border-radius:12px;padding:12px 18px;margin-top:14px}
+  details.ej summary{cursor:pointer;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+  details.ej p{margin-top:8px}
+
+  .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px;margin-top:10px}
+  .fcard{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px}
+  .fcard .lbl{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:6px}
+  .fcard .f{font-family:"Fraunces",serif;font-weight:600;font-size:17px;color:var(--ink);line-height:1.35}
+  .fcard .d{font-size:14.5px;color:var(--ink-soft);margin-top:8px}
+  .fcard .d b{color:var(--ink)}
+  .fcard .pts{float:right;font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;color:#fff;background:var(--accent);border-radius:999px;padding:2px 8px}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  footer{padding:60px 0 90px;text-align:center}
+  footer p{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-soft)}
+
+  .modes{display:flex;gap:4px;background:var(--paper-2);border:1.5px solid var(--line);border-radius:999px;padding:4px;margin-left:auto}
+  .modes button{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);background:transparent;border:0;cursor:pointer;padding:6px 14px;border-radius:999px;transition:.16s}
+  .modes button:hover{color:var(--ink)}
+  .modes button.active{background:var(--ink);color:var(--paper)}
+  .nav-chips{max-width:1100px;margin:0 auto;padding:0 28px 12px;display:flex;gap:8px;flex-wrap:wrap}
+  .hidden{display:none!important}
+  .modeview{padding-bottom:40px}
+
+  .qwrap{max-width:760px;margin:46px auto 0}
+  .qtop{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-soft);letter-spacing:.04em}
+  .qtop b{color:var(--brand)}
+  .qcard{background:var(--paper-2);border:1.5px solid var(--line);border-radius:16px;padding:28px;position:relative;overflow:hidden}
+  .qcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent,var(--brand))}
+  .qcard .qgroup{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent,var(--brand));font-weight:700}
+  .qcard .qq{font-family:"Fraunces",serif;font-weight:600;font-size:24px;line-height:1.22;margin:10px 0 22px}
+  .opt{display:block;width:100%;text-align:left;cursor:pointer;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:11px;padding:14px 16px;margin-bottom:10px;font-size:16px;font-family:"Atkinson Hyperlegible",sans-serif;line-height:1.4;transition:.14s}
+  .opt:hover:not(:disabled){border-color:var(--ink)}
+  .opt:disabled{cursor:default}
+  .opt.correct{border-color:var(--ok);background:var(--ok-soft)}
+  .opt.wrong{border-color:var(--no);background:var(--no-soft)}
+  .opt .mk{float:right;font-family:"JetBrains Mono",monospace;font-weight:700;margin-left:10px}
+  .qactions{margin-top:6px;display:flex;justify-content:flex-end;gap:10px}
+  .btn{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;background:var(--ink);color:var(--paper);border:0;padding:11px 20px;border-radius:10px;transition:.15s}
+  .btn:hover{filter:brightness(1.25)}
+  .btn.ghost{background:transparent;color:var(--ink-soft);box-shadow:inset 0 0 0 1.5px var(--line)}
+  .btn.ghost:hover{color:var(--ink)}
+  .fb{font-family:"JetBrains Mono",monospace;font-size:13px;margin:14px 0 2px;min-height:18px}
+  .fb.ok{color:var(--ok)}.fb.no{color:var(--no)}
+  .esc-input{width:100%;min-height:130px;resize:vertical;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;color:var(--ink);font-family:"Atkinson Hyperlegible",sans-serif;font-size:17px;line-height:1.55;padding:14px 16px;margin-bottom:14px}
+  .esc-input:focus{outline:none;border-color:var(--accent,var(--brand))}
+  .esc-input:disabled{opacity:.65}
+  .esc-answer{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}
+  .esc-lbl{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft);display:block;margin-bottom:6px;font-weight:700}
+  .esc-yours p{font-size:16px;color:var(--ink-soft);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 14px;white-space:pre-wrap;margin:0}
+  .esc-ok{border-left:4px solid var(--ok);padding-left:14px;margin-top:16px}
+  .esc-ok .ans{font-size:17px;margin:0}
+  .esc-rate{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--ink-soft);display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .esc-rate .rate{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;cursor:pointer;background:var(--paper-2);border:1.5px solid var(--line);color:var(--ink);padding:8px 14px;border-radius:8px;transition:.14s}
+  .esc-rate .rate:hover{border-color:var(--accent,var(--brand));color:var(--accent,var(--brand))}
+
+  @media(max-width:720px){
+    body::before{display:none}
+    nav{backdrop-filter:none;background:rgba(243,241,234,.97)}
+    .reveal{transition-duration:.35s}
+    .nav-brand{display:none}
+    .nav-inner{padding:8px 14px}
+    .modes{margin:0 auto}
+    .modes button{padding:5px 12px;font-size:11px}
+    .nav-chips{flex-wrap:nowrap;overflow-x:auto;padding:0 14px 8px;gap:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .nav-chips::-webkit-scrollbar{display:none}
+    .chip{flex:none;white-space:nowrap;padding:4px 10px;font-size:11px}
+  }
+
+  @media print{
+    nav{display:none}
+    body::before{display:none}
+    .reveal{opacity:1;transform:none}
+    section.unit{padding:24px 0;break-inside:auto}
+    .card{break-inside:avoid;background:#fff}
+    #view-quiz,#view-escribir{display:none!important}
+  }
+</style>
+<style>
+  /* --- extras para la transcripción del cuaderno --- */
+  .xlink{display:inline-block;margin-top:22px;font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);text-decoration:none;border-bottom:2px solid var(--brand);padding-bottom:2px}
+  .xlink:hover{color:var(--ink);border-color:var(--ink)}
+  .fuera{margin-top:16px;font-size:14.5px;color:var(--ink-soft);background:#fff;border:1px dashed var(--line);border-radius:10px;padding:10px 14px;max-width:760px}
+  .fuera b{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+  .hoja{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);border:1.5px dashed var(--ink-soft);border-radius:999px;padding:3px 10px;margin:4px 0 14px;background:#fff}
+  .margen{font-family:"Fraunces",serif;font-style:italic;color:var(--ink-soft);font-size:15px;background:#fff;border:1px dashed var(--line);border-radius:10px;padding:8px 14px;margin-bottom:14px}
+  .margen b{font-style:normal;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-right:8px}
+  .tachado{text-decoration:line-through;color:var(--ink-soft)}
+  .def .mk,li .mk{font-family:"JetBrains Mono",monospace;font-weight:700;margin-right:6px}
+  .mk.ok{color:var(--ok)}.mk.no{color:var(--no)}
+  .llave{border-left:3px solid var(--accent);margin:8px 0;padding-left:8px}
+  .llave .llave-lbl{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:block;margin:2px 0 0 24px}
+  .blank{display:inline-block;min-width:80px;border-bottom:1.5px solid var(--ink-soft);vertical-align:baseline;margin:0 4px}
+  .pir{display:flex;gap:22px;align-items:stretch}
+  .pir svg{flex:none;width:120px;height:auto}
+  .pir ol{flex:1;margin-top:0}
+  .org-top{font-family:"Fraunces",serif;font-weight:600;font-size:18px;color:var(--accent);border:1.5px solid var(--accent);border-radius:10px;padding:6px 18px;display:inline-block;margin:6px 0 10px}
+  .org-note{font-family:"Fraunces",serif;font-style:italic;font-size:14px;color:var(--ink-soft);display:block;margin-top:6px}
+  ul.sub2{margin:2px 0 2px 48px}
+  ul.sub2 li{font-size:15px;color:var(--ink-soft)}
+  @media(max-width:720px){.pir{flex-direction:column}.pir svg{width:90px}}
+</style>
+<style>
+  .src{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:2px 8px;border:1.5px solid;vertical-align:middle}
+  .h-main .src{margin-left:auto}
+  .src.hoja{color:var(--ok);border-color:var(--ok);background:var(--ok-soft)}
+  .src.clase{color:#8a6a1c;border-color:#c9a44a;background:#faf1d9}
+  .note .src,li .src{margin-right:6px}
+  h3.grp{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(22px,3vw,30px);margin:34px 0 8px;padding-top:18px;border-top:1px solid var(--line);color:var(--ink)}
+  h3.grp:first-of-type{border-top:0;padding-top:0;margin-top:10px}
+  .mini.okk ul li::before{content:none}
+  .mini.okk ul li{padding-left:4px}
+  .soft-i{color:var(--ink-soft);font-style:italic}
+  .src.xtag{color:#7a4a9c;border-color:#7a4a9c;background:#f1e8f7}
+  #view-resumen .x{display:none!important}
+  #view-completo .card.x{border:1.5px dashed #7a4a9c;background:#fbf8fd}
+  #view-completo .card.x::before{background:#7a4a9c}
+  #view-completo .card.x .h-main::after{content:"Extra";font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7a4a9c;border:1.5px solid #7a4a9c;background:#f1e8f7;border-radius:999px;padding:2px 8px}
+  #view-completo div.x:not(.card),#view-completo details.x{border:1.5px dashed #7a4a9c;border-radius:10px;padding:8px 10px;margin-top:10px}
+  #view-completo li.x{color:#5c3a76}
+  #view-completo li.x::after{content:" · extra";font-family:"JetBrains Mono",monospace;font-size:10px;color:#7a4a9c}
+  #view-completo .hero-c{font-family:"JetBrains Mono",monospace;font-size:12px;color:#7a4a9c;margin:30px 0 0;letter-spacing:.06em}
+</style>
+<style>.mini>b:first-child{display:block;margin-bottom:4px}.nav-chips.sub{gap:6px;margin-top:-4px}.chip.t{font-size:11px;font-weight:600;padding:3px 10px;border-width:1px}.chip.t.u1{border-color:var(--u3);color:var(--u3)}.chip.t.u2{border-color:var(--u1);color:var(--u1)}.chip.t:hover{color:var(--paper)}.chip.t.u1:hover{background:var(--u3)}.chip.t.u2:hover{background:var(--u1)}h3.grp,section.unit{scroll-margin-top:200px}@media(max-width:720px){h3.grp,section.unit{scroll-margin-top:146px}}</style></head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">Gestión de Marketing · 2do Parcial</span>
+    <div class="modes" id="modes">
+      <button data-mode="resumen" class="active">Resumen</button>
+      <button data-mode="completo">Completo</button>
+      <button data-mode="quiz">Quiz</button>
+      <button data-mode="escribir">Escribir</button>
+    </div>
+  </div>
+  <div id="navchips"><div class="nav-chips"><a class="chip" href="#p1">Unidad 4 · Marketing de servicios</a><a class="chip" href="#p2">Unidad 5 · Experiencial y neuromarketing</a></div><div class="nav-chips sub"><a class="chip t u1" href="#p1-1">Marketing financiero</a><a class="chip t u1" href="#p1-2">Marketing deportivo</a><a class="chip t u1" href="#p1-3">Marketing turístico</a><a class="chip t u1" href="#p1-4">Marketing profesional</a><a class="chip t u2" href="#p2-1">Marketing experiencial</a><a class="chip t u2" href="#p2-2">Neuromarketing</a><a class="chip t u2" href="#p2-3">Colores, formas y anuncios</a></div></div>
+  <div id="navchips-c" style="display:none"><div class="nav-chips"><a class="chip" href="#c1">Unidad 4 · Marketing de servicios</a><a class="chip" href="#c2">Unidad 5 · Experiencial y neuromarketing</a></div><div class="nav-chips sub"><a class="chip t u1" href="#c1-1">Servicios</a><a class="chip t u1" href="#c1-2">Marketing financiero</a><a class="chip t u1" href="#c1-3">Marketing deportivo</a><a class="chip t u1" href="#c1-4">Marketing turístico</a><a class="chip t u1" href="#c1-5">Marketing profesional</a><a class="chip t u2" href="#c2-1">Marketing experiencial</a><a class="chip t u2" href="#c2-2">Neuromarketing</a><a class="chip t u2" href="#c2-3">Colores, formas y anuncios</a></div></div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">Mis apuntes · 2do Parcial · Solo lo que entra</p>
+    <h1>Gestión de Marketing<br><em>2do Parcial</em></h1>
+    <p class="hero-lead"><b>Lo que el profesor dijo textual que entra:</b> "todo lo que faltaba de la unidad 4: marketing financiero, deportivo, turístico y profesional" y "unidad 5 completa"; lo único que no entra es neotenia (27/10 y 03/11). Formato: todas preguntas abiertas, más un práctico de algún tema visto después del 1.er parcial. En <b>Resumen</b> están todos los temas que entran, en versión corta. En <b>Completo</b>, el mismo contenido con todo el detalle; lo que el profesor no nombró como pregunta va marcado <span class="src xtag">Extra</span>. Solo teoría: el práctico se practica en los simulacros de NotebookLM. La base son mis 14 hojas (<span class="src hoja">Mis hojas</span>); los huecos se completaron con las grabaciones (<span class="src clase">De la clase</span>).</p>
+    <div class="fuera"><b>No entra (lo dijo textual):</b> marketing ecológico (U6, "entra en el final") · neotenia · teoría de marketing de salud (ya se tomó en el 1.er parcial).</div>
+    <div class="hero-meta">
+      <div><b>Unidades</b><span>4 · 5</span></div>
+      <div><b>Parcial</b><span>Martes 10/11</span></div>
+    </div>
+  </header>
+
+  <div id="view-resumen">
+
+  <section class="unit reveal" id="p1" style="--accent:var(--u3)">
+    <div class="unit-head"><div class="unit-num">04</div>
+      <div class="unit-titles"><p class="u-kicker">Unidad 4</p><h2>Marketing de servicios</h2></div></div>
+    <span class="unit-weight">"todo lo que faltaba de la unidad 4"</span>
+
+    <h3 class="grp" id="p1-1">Marketing financiero</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Definición<span class="src hoja">Mis hojas + clase</span></p>
+      <p class="def"><b>Marketing financiero:</b> busca eliminar la incertidumbre del consumidor para darle el mejor destino a su capital.</p>
+      <p class="simple"><b>Concepto:</b> la aplicación del marketing operativo y estratégico a los bancos.</p>
+      <div class="x"><p class="def"><b>Definición completa:</b> como parte de la actividad financiera, tiene como objetivo determinar de forma reflexiva y metódica las acciones a emprender en un mercado dominado por constantes y continuos cambios (liberalización financiera, globalización de los mercados, desintermediación, tecnología, nivel cultural y económico), que definen un escenario altamente competitivo y cambiante. El cliente, cada vez más preparado, es el elemento clave donde confluyen las acciones y estrategias de marketing para satisfacer sus necesidades de forma rentable y duradera en tiempo y lugar.</p>
+      <p class="quote">"El alumno que dice esto en el examen me va a dar muchas ganas de ponerle 10."</p></div>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Aspectos específicos<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Percepción de la calidad:</b> subjetiva.</li>
+        <li><b>Precio:</b> pasa a segundo plano y se analiza cualitativamente.</li>
+        <li><b>Psicología del dinero:</b> importan los destinos que se le da al dinero, no el dinero en sí.</li>
+        <li><b>Relaciones con terceros:</b> se juzga la calidad de la institución por las caras visibles (oficial de crédito, gerente).</li>
+        <li><b>Múltiples canales de venta:</b> muchos canales para realizar la misma operación.</li>
+        <li><b>Elegir el proveedor antes que el costo:</b> lo cualitativo antes que lo cuantitativo.</li>
+        <li><b>Costo:</b> se juzga por lo psicológico: reputación y conveniencia.</li>
+        <li><b>Decisiones que involucran el dinero:</b> se trabaja sobre las decisiones (qué préstamo, qué inversión), no sobre el dinero.</li>
+      </ul>
+      <p class="note">Todo muestra una alta dosis de subjetividad por falta de educación financiera. "Vayan a la parte que dice <b>específico</b> del marketing financiero": no confundir con los aspectos generales del marketing de servicios.</p>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Segmentación, posicionamiento y mix<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Segmentación:</b> orientada al cliente · por etapa de la vida · por la utilidad que se le da.</li>
+        <li><b>Posicionamiento:</b> la imagen corporativa por sobre el producto (homogéneo). Reto: superar la intangibilidad.</li>
+        <li><b>Producto:</b> necesidades: mover dinero y pagar · reinvertir · pago diferido · manejar riesgos · información · asesoramiento. Modificar productos o crear nuevos.</li>
+        <li><b>Precio:</b> abierto (todo se muestra) · encubierto (queda implícito).</li>
+        <li><b>Promoción:</b> volver tangible el producto; publicidad masiva o directa.</li>
+        <li><b>Canales:</b> sucursales · redes de cobranza · cara a cara · call center · home banking · grupos de afiliados · apps.</li>
+      </ul>
+    </div>
+    <h3 class="grp" id="p1-2">Marketing deportivo</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Definición, pilares y ramas<span class="src hoja">Mis hojas + clase</span></p>
+      <p class="def"><b>Marketing deportivo:</b> volcar tu marca a una temática (plataforma) deportiva; vender a través del deporte.</p>
+      <div class="chain"><span>Pasión</span><i>·</i><span>Ilusión</span><i>·</i><span>Emoción</span></div>
+      <ul>
+        <li><b>Rama 1:</b> comercializar productos y servicios deportivos a consumidores del deporte (el servicio deportivo es el espectáculo).</li>
+        <li><b>Rama 2:</b> usar el deporte como vehículo promocional de productos de consumo (anunciar marcas en eventos deportivos).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Participantes y espectadores<span class="src hoja">Mis hojas + clase</span></p>
+      <div class="grid2">
+        <div class="mini"><b>Participantes</b><ul><li><b>Primario:</b> el que juega o practica el deporte</li><li><b>Secundario:</b> directivos y árbitros</li><li><b>Terciario:</b> periodistas, anunciantes, etc. (comunicación)</li></ul></div>
+        <div class="mini"><b>Espectadores</b><ul><li><b>Primario:</b> asiste presencialmente</li><li><b>Secundario:</b> mira a través de medios de comunicación</li><li><b>Terciario:</b> experimenta el producto indirectamente: verbalmente (averigua el resultado) o asociado a un club</li></ul></div>
+      </div>
+      <p class="quote">"Repasen lo que son los participantes, espectadores" (sobre el práctico, 03/11). Los apostadores son espectadores terciarios.</p>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Patrocinio<span class="src hoja">Mis hojas + clase</span></p>
+      <p class="def">Forma de anunciar al anunciante de manera <b>personalizada y muy exclusiva</b>. Es marketing aplicado a un consumidor industrial: el cliente es el <b>patrocinador</b> (sponsor).</p>
+      <p class="quote">"Algo importante, patrocinio."</p>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Características y estrategias<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Características de la industria:</b> servicio intangible, no almacenable, de calidad variable · componente emocional · participación activa del consumidor · gestión de la variedad de productos · gestión de la marca (el consumidor define la marca).</li>
+        <li><b>Estrategias:</b> especialización · diversificación · diferenciación · crecimiento interno · crecimiento externo.</li>
+      </ul>
+    </div>
+    <h3 class="grp" id="p1-3">Marketing turístico</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Concepto<span class="src hoja">Mis hojas + clase</span></p>
+      <p class="def"><b>Marketing turístico:</b> adapta la oferta de servicios turísticos de un lugar a la demanda de turistas locales, regionales, nacionales e internacionales.</p>
+      <p class="simple">No es marketing territorial: a lo sumo es una pequeña parte. Turismo: colectivos de personas, locales y foráneos, que hacen actividades de esparcimiento en un lugar. "Por lo menos quédense con ese concepto."</p>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Mix turístico<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Producto:</b> matriz de Ansoff.</li>
+        <li><b>Precio:</b> por estacionalidad · de paridad.</li>
+        <li><b>Distribución:</b> acercar información al turista · localización estratégica · venta a distancia · reservas.</li>
+        <li><b>Intermediarios:</b> agencias de viaje · mayoristas · especialistas en viajes organizados · representantes de hoteles · oficinas de turismo · hoteles resort.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Promoción<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>UGC:</b> contenido generado por el usuario que publicita el destino.</li>
+        <li><b>Merchandising:</b> señalización en el punto de venta para vender más. En turismo: anuncio o señalización de las atracciones para los turistas.</li>
+        <li class="x"><b>Publicidad especializada:</b> souvenirs.</li>
+        <li class="x"><b>Imagen del país y de la zona:</b> marketing territorial.</li>
+      </ul>
+      <p class="quote">"Agreguen estos dos temas para la promoción en marketing turístico: UGC y merchandising."</p>
+    </div>
+    <h3 class="grp" id="p1-4">Marketing profesional</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Definición y diferencia con el personal<span class="src clase">De la clase · 15/09 · 03/11</span></p>
+      <p class="def"><b>Marketing profesional:</b> la planificación estratégica de marketing aplicada al ejercicio de una profesión liberal.</p>
+      <p class="def"><b>Diferencia con el personal:</b> el personal es más general y engloba al profesional: aplica los principios del marketing a toda la vida de la persona (personal y laboral). El profesional trata exclusivamente lo profesional, aplica todos los principios del personal y los amplía con sus estrategias. No se contradicen.</p>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Las seis estrategias<span class="src clase">De la clase · 15/09</span></p>
+      <ul>
+        <li><b>Cumplimiento:</b> cumplir el servicio en los estándares mínimos esperados (el piso).</li>
+        <li><b>Productividad:</b> todas las mejoras posibles, más allá de lo pedido.</li>
+        <li><b>Educación:</b> asesorar y capacitar al cliente y al entorno.</li>
+        <li><b>Comportamiento:</b> conducta ética: confidencialidad y lealtad al cliente.</li>
+        <li><b>Diferenciación:</b> técnica: un nivel de conocimiento que no tiene nadie más.</li>
+        <li><b>Valor agregado:</b> habilidades blandas (creatividad, liderazgo, habilidades interpersonales).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Marketing personal y personal branding<span class="src clase">De la clase · 15/09</span></p>
+      <ul>
+        <li><b>Marketing personal:</b> elegir estrategias y herramientas para lograr objetivos personales y/o profesionales, en un entorno cambiante y en competencia.</li>
+        <li><b>Personal branding:</b> posicionar cualidades que te identifiquen y diferencien de los demás.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="unit reveal" id="p2" style="--accent:var(--u1)">
+    <div class="unit-head"><div class="unit-num">05</div>
+      <div class="unit-titles"><p class="u-kicker">Unidad 5</p><h2>Experiencial y neuromarketing</h2></div></div>
+    <span class="unit-weight">"unidad 5 completa, menos neotenia"</span>
+
+    <h3 class="grp" id="p2-1">Marketing experiencial</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Experiencia y marketing experiencial<span class="src hoja">Mis hojas + clase</span></p>
+      <p class="def"><b>Experiencia:</b> lo que almacena el cerebro a través de los sentidos, más el sentimiento de ese momento.</p>
+      <div class="chain"><span>Sensaciones de los 5 sentidos</span><i>→</i><span>Conceptos e ideas</span><i>→</i><span>Sentimientos y emociones</span><i>→</i><span>Experiencias</span></div>
+      <p class="def"><b>Marketing experiencial:</b> crear un ecosistema alrededor del producto que genere una experiencia previa a la compra y durante su consumo (el cliente elige por la vivencia que le ofrece).</p>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Características y otras consideraciones<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Características:</b> consumidor escéptico · usa los sentidos para crear emociones · la experiencia agrega valor a las 4P · sensaciones por color, aroma, sonido y formas.</li>
+        <li><b>Otras consideraciones:</b> generar interés y atención · comodidad en el punto de venta · retener al cliente · música y sonido · entorno transformado en experiencia · espacios agradables · potenciar la asociación · aromas y formas.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Vías para generar experiencias<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Percepción</b> (percibir): asociación de ideas, ilusiones.</li>
+        <li><b>Sentimientos</b> (sentir).</li>
+        <li><b>Pensamientos</b> (pensar): hacer reflexionar.</li>
+        <li><b>Acción</b> (actuar): la persona interactúa.</li>
+        <li><b>Relación</b> (relacionarse socialmente): sentirse parte de un grupo o comunidad.</li>
+      </ul>
+      <p class="quote">"Vías para generar experiencias, esto es importante."</p>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Publicidad ATL y BTL<span class="src hoja">Mis hojas + clase</span></p>
+      <div class="grid2">
+        <div class="mini"><b>ATL · above the line</b><ul><li>Convencional: TV · radio · medios impresos · cine · exterior</li><li><b>Ventajas:</b> alcance · conexión con la audiencia · <i>brand building</i></li></ul></div>
+        <div class="mini"><b>BTL · below the line</b><ul><li>Interactiva, creativa, sorpresiva y de menor costo</li><li><b>Tipos:</b> patrocinio · activaciones · punto de venta · product placement · online · mkt directo · RRPP · advergaming</li><li><b>Ventajas:</b> enfocada al segmento · mejor ROI · controlable · personalizable</li></ul></div>
+      </div>
+    </div>
+    <h3 class="grp" id="p2-2">Neuromarketing</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Definición y los tres cerebros<span class="src hoja">Mis hojas + clase</span></p>
+      <p class="def"><b>Neuromarketing:</b> la aplicación de técnicas de las neurociencias a los estímulos de marketing para entender cómo se activa el cerebro ante las acciones de marketing (Braidot).</p>
+      <div class="grid3">
+        <div class="mini"><b>Reptiliano</b>Supervivencia e instintos: actúa por impulso</div>
+        <div class="mini"><b>Límbico</b>Emociones: valoración de la marca</div>
+        <div class="mini"><b>Neocórtex (cognitivo)</b>Razonamiento: "me conviene o no"</div>
+      </div>
+      <p class="note">El estímulo tiene que entrar primero al límbico (o al reptiliano) y después al neocórtex.</p>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Cerebro, segmentación, distribución y promoción<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Cerebro vs. mente:</b> sistema operativo vs. las decisiones dentro de ese sistema.</li>
+        <li><b>Mercado meta:</b> consumidores con estímulos y reacciones similares. <b>Segmentación:</b> según la reacción biológica (sentidos).</li>
+        <li><b>Posicionamiento:</b> cognitivo · emocional · instintivo.</li>
+        <li><b>Distribución:</b> optimizar la experiencia neurológica; evitar saturación.</li>
+        <li><b>Promoción:</b> neurocomunicación · atención y recordación.</li>
+        <li><b>Neuronas espejo:</b> el cerebro duplica las emociones de los rostros que ve.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Hemisferios: producto, precio y posicionamiento<span class="src hoja">Mis hojas + clase</span></p>
+      <div class="grid2">
+        <div class="mini"><b>Hemisferio izquierdo · lógica</b>Lenguaje · matemáticas · escritura · análisis · razonamiento</div>
+        <div class="mini"><b>Hemisferio derecho · emoción</b>Sentido emocional · música · espacio · arte · sensaciones</div>
+      </div>
+      <div class="fbox">El estímulo tiene que entrar por el hemisferio derecho antes que por el izquierdo</div>
+      <ul>
+        <li><b>Producto:</b> construcción perceptual (formas, texturas, colores): una percepción del cerebro a partir de los 5 sentidos.</li>
+        <li><b>Precio:</b> el cerebro hace un juicio de valor: compara recompensas contra sacrificios y lo juzga justo o injusto. Hay que apelar a la emoción (hemisferio derecho) antes de ese juicio.</li>
+        <li><b>Posicionamiento:</b> conexión neuronal entre el recuerdo de la marca y una idea, construida a través de los 5 sentidos.</li>
+      </ul>
+      <p class="quote">"Cómo se aplica el precio con respecto a los hemisferios, eso sí les puedo preguntar." "Que no parezca que solamente estudiaron el power."</p>
+    </div>
+    <h3 class="grp" id="p2-3">Colores, formas y recursos del anuncio</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Colores y formas<span class="src hoja">Mis hojas + clase</span></p>
+      <div class="tbl-scroll"><table class="eco">
+        <tr><th>Color</th><th>Significado</th></tr>
+        <tr><td><b>Rojo</b></td><td>Acción, fuerza, pasión (hambre)</td></tr>
+        <tr><td><b>Amarillo</b></td><td>Armonía, positivismo</td></tr>
+        <tr><td><b>Azul</b></td><td>Confianza, autoridad</td></tr>
+        <tr><td><b>Naranja</b></td><td>Entusiasmo, juventud</td></tr>
+        <tr><td><b>Verde</b></td><td>Naturaleza, esperanza</td></tr>
+        <tr><td><b>Morado</b></td><td>Misterio, lujo</td></tr>
+        <tr><td><b>Rosado</b></td><td>Jovialidad, delicadeza</td></tr>
+        <tr><td><b>Negro</b></td><td>Poder, elegancia</td></tr>
+        <tr><td><b>Blanco</b></td><td>Sencillez, pureza</td></tr>
+        <tr><td><b>Gris</b></td><td>Moderación</td></tr>
+      </table></div>
+      <ul>
+        <li><b>Triángulo:</b> estabilidad (apoyado en un ángulo: inestabilidad y dinamismo).</li>
+        <li><b>Círculo:</b> movimiento; sirve para fijar la vista.</li>
+        <li><b>Cuadrado:</b> estabilidad continua.</li>
+      </ul>
+      <p class="quote">"¿Por qué no leen lo de los colores? Todo: colores, formas, vías."</p>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Identidad visual y publicidad subliminal<span class="src hoja">Mis hojas + clase</span></p>
+      <div class="grid2">
+        <div class="mini"><b>Identidad visual</b><ul><li><b>Logotipo:</b> construcción tipográfica de la marca</li><li><b>Isotipo:</b> emblema o gráfico (símbolo, ícono)</li><li><b>Isologotipo:</b> texto y símbolo inseparables entre sí</li><li><b>Imagotipo:</b> texto y símbolo separables</li></ul></div>
+        <div class="mini"><b>Publicidad subliminal</b><ul><li>Anuncio captado por el inconsciente, por debajo de la percepción consciente</li><li><b>Subaudible:</b> sonidos no perceptibles conscientemente (mini jingle)</li><li><b>Subvisual:</b> imagen con doble sentido</li><li><b>Ambientaciones subliminales:</b> se transforma el ambiente en el que interactúa la persona</li><li><b>Emisiones de alta frecuencia:</b> un elemento que se repite tantas veces que queda en el subconsciente</li></ul></div>
+      </div>
+      <p class="note">¿Existe? Es discutible: si descubrís el trasfondo, lo percibís de forma consciente y deja de ser subliminal.</p>
+    </div>
+  </section>
+
+  </div><!-- /view-resumen -->
+
+  <div id="view-completo" class="hidden">
+
+  <section class="unit reveal" id="c1" style="--accent:var(--u3)">
+    <div class="unit-head"><div class="unit-num">04</div>
+      <div class="unit-titles"><p class="u-kicker">Unidad 4</p><h2>Marketing de servicios</h2></div></div>
+    <span class="unit-weight">"todo lo que faltaba de la unidad 4"</span>
+
+    <h3 class="grp" id="c1-1">Servicios</h3>
+
+    <div class="card x">
+      <p class="h-main"><span class="dot"></span>Servicio y tipos<span class="src hoja">Mis hojas</span></p>
+      <p class="def"><b>Servicio:</b> conjunto de cualidades o características que satisfacen una necesidad, distinguido por ser intangible.</p>
+      <p class="simple">Tipos: salud (1.er parcial) · turístico · servicios profesionales · financiero · deportivo.</p>
+    </div>
+    <h3 class="grp" id="c1-2">Marketing financiero</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Definición<span class="src hoja">Mis hojas + clase</span></p>
+      <p class="def"><b>Marketing financiero:</b> busca eliminar la incertidumbre del consumidor para darle el mejor destino a su capital.</p>
+      <p class="simple"><b>Concepto:</b> la aplicación del marketing operativo y estratégico a los bancos.</p>
+      <div class="x"><p class="def"><b>Definición completa:</b> como parte de la actividad financiera, tiene como objetivo determinar de forma reflexiva y metódica las acciones a emprender en un mercado dominado por constantes y continuos cambios (liberalización financiera, globalización de los mercados, desintermediación, tecnología, nivel cultural y económico), que definen un escenario altamente competitivo y cambiante. El cliente, cada vez más preparado, es el elemento clave donde confluyen las acciones y estrategias de marketing para satisfacer sus necesidades de forma rentable y duradera en tiempo y lugar.</p>
+      <p class="quote">"El alumno que dice esto en el examen me va a dar muchas ganas de ponerle 10."</p></div>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Aspectos específicos<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Percepción de la calidad:</b> subjetiva.</li>
+        <li><b>Precio:</b> pasa a segundo plano y se analiza cualitativamente.</li>
+        <li><b>Psicología del dinero:</b> importan los destinos que se le da al dinero, no el dinero en sí.</li>
+        <li><b>Relaciones con terceros:</b> se juzga la calidad de la institución por las caras visibles (oficial de crédito, gerente).</li>
+        <li><b>Múltiples canales de venta:</b> muchos canales para realizar la misma operación.</li>
+        <li><b>Elegir el proveedor antes que el costo:</b> lo cualitativo antes que lo cuantitativo.</li>
+        <li><b>Costo:</b> se juzga por lo psicológico: reputación y conveniencia.</li>
+        <li><b>Decisiones que involucran el dinero:</b> se trabaja sobre las decisiones (qué préstamo, qué inversión), no sobre el dinero.</li>
+      </ul>
+      <p class="note">Todo muestra una alta dosis de subjetividad por falta de educación financiera. "Vayan a la parte que dice <b>específico</b> del marketing financiero": no confundir con los aspectos generales del marketing de servicios.</p>
+    </div>
+    <div class="card x">
+      <p class="h-main"><span class="dot"></span>Segmentación y posicionamiento<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Segmentación:</b> orientada al cliente (demográfica, socioeconómica, geográfica, psicográfica) · por etapa de la vida · por la utilidad que se le da al servicio (conductual).</li>
+        <li><b>Posicionamiento:</b> se posiciona la <b>imagen corporativa por sobre el producto</b>, porque el producto es homogéneo (está legislado). Reto: <b>superar la intangibilidad</b>. Debe ser claro, creíble, coherente y competitivo.</li>
+      </ul>
+    </div>
+    <div class="card x">
+      <p class="h-main"><span class="dot"></span>Mix del marketing financiero<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Producto:</b> importa tanto o más la necesidad que el producto. Necesidades: mover dinero y realizar pagos · reinvertir · pago diferido (crédito) · manejar riesgos (seguros) · información · asesoramiento. Estrategias: modificar un producto existente (tasa, período de gracia, beneficios) o desarrollar productos nuevos.</li>
+        <li><b>Precio:</b> su fijación es más compleja. <b>Abierto:</b> todos los conceptos que se cobran figuran expresamente (resumen de cuenta). <b>Encubierto:</b> quedan implícitos (comisiones no informadas).</li>
+        <li><b>Promoción:</b> busca volver tangibles y palpables los productos financieros. Publicidad <b>masiva</b> (medios tradicionales) o <b>directa</b> (personalizada, llamados).</li>
+        <li><b>Distribución:</b> el servicio es intangible y perecedero, no necesita almacenamiento. Incertidumbre y responsabilidad fiduciaria (compartida entre institución y consumidor).</li>
+        <li><b>Canales:</b> sucursales bancarias · redes de cobranza (cajeros fuera del banco) · cara a cara (oficial de crédito) · call center · home banking · grupos de afiliados (fondos comunes) · aplicaciones móviles.</li>
+      </ul>
+    </div>
+    <h3 class="grp" id="c1-3">Marketing deportivo</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Definición, pilares y ramas<span class="src hoja">Mis hojas + clase</span></p>
+      <p class="def"><b>Marketing deportivo:</b> volcar tu marca a una temática (plataforma) deportiva; vender a través del deporte.</p>
+      <div class="chain"><span>Pasión</span><i>·</i><span>Ilusión</span><i>·</i><span>Emoción</span></div>
+      <ul>
+        <li><b>Rama 1:</b> comercializar productos y servicios deportivos a consumidores del deporte (el servicio deportivo es el espectáculo).</li>
+        <li><b>Rama 2:</b> usar el deporte como vehículo promocional de productos de consumo (anunciar marcas en eventos deportivos).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Participantes y espectadores<span class="src hoja">Mis hojas + clase</span></p>
+      <div class="grid2">
+        <div class="mini"><b>Participantes</b><ul><li><b>Primario:</b> el que juega o practica el deporte</li><li><b>Secundario:</b> directivos y árbitros</li><li><b>Terciario:</b> periodistas, anunciantes, etc. (comunicación)</li></ul></div>
+        <div class="mini"><b>Espectadores</b><ul><li><b>Primario:</b> asiste presencialmente</li><li><b>Secundario:</b> mira a través de medios de comunicación</li><li><b>Terciario:</b> experimenta el producto indirectamente: verbalmente (averigua el resultado) o asociado a un club</li></ul></div>
+      </div>
+      <p class="quote">"Repasen lo que son los participantes, espectadores" (sobre el práctico, 03/11). Los apostadores son espectadores terciarios.</p>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Patrocinio<span class="src hoja">Mis hojas + clase</span></p>
+      <p class="def">Forma de anunciar al anunciante de manera <b>personalizada y muy exclusiva</b>. Es marketing aplicado a un consumidor industrial: el cliente es el <b>patrocinador</b> (sponsor).</p>
+      <p class="quote">"Algo importante, patrocinio."</p>
+    </div>
+    <div class="card x">
+      <p class="h-main"><span class="dot"></span>Características de la industria deportiva<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Servicio deportivo:</b> intangible · no almacenable · calidad variable.</li>
+        <li><b>Componente emocional:</b> se vive para estimular emociones; si no emociona, no vende.</li>
+        <li><b>Participación activa del consumidor:</b> coopera en la producción del servicio; cuanto más mejora el practicante, más consume.</li>
+        <li><b>Gestión de la variedad de productos:</b> explotar más la gama de productos que el partido en sí.</li>
+        <li><b>Gestión de la marca:</b> estrategias centradas en la imagen; el consumidor define la marca, no al revés.</li>
+      </ul>
+    </div>
+    <div class="card x">
+      <p class="h-main"><span class="dot"></span>Estrategias<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Especialización:</b> concentrarse en un nicho o un solo rubro.</li>
+        <li><b>Diversificación:</b> meterse en varios mercados con una sola marca.</li>
+        <li><b>Diferenciación:</b> una cualidad única, pero deportiva.</li>
+        <li><b>Crecimiento interno:</b> ampliar la gama de productos que ya se tiene.</li>
+        <li><b>Crecimiento externo:</b> crece la empresa en su totalidad (fusiones, compras).</li>
+      </ul>
+      <p class="note">El marketing deportivo tiene que coincidir con el posicionamiento de la marca; si no, no sirve.</p>
+    </div>
+    <h3 class="grp" id="c1-4">Marketing turístico</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Concepto<span class="src hoja">Mis hojas + clase</span></p>
+      <p class="def"><b>Marketing turístico:</b> adapta la oferta de servicios turísticos de un lugar a la demanda de turistas locales, regionales, nacionales e internacionales.</p>
+      <p class="simple">No es marketing territorial: a lo sumo es una pequeña parte. Turismo: colectivos de personas, locales y foráneos, que hacen actividades de esparcimiento en un lugar. "Por lo menos quédense con ese concepto."</p>
+    </div>
+    <div class="card x">
+      <p class="h-main"><span class="dot"></span>Mix turístico<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Estrategia</b> (mercado, segmentación, posicionamiento): sin modificaciones.</li>
+        <li><b>Producto:</b> matriz de Ansoff: penetración · desarrollo de mercado · desarrollo de producto · diversificación.</li>
+        <li><b>Precio:</b> por estacionalidad · de paridad (estándar, parecido a la competencia).</li>
+        <li><b>Distribución:</b> acercar documentación e información al turista · localización estratégica · red de venta a distancia · sistema de reservas.</li>
+        <li><b>Intermediarios:</b> agencias de viaje · mayoristas turísticos · especialistas en viajes organizados · representantes de hoteles · oficinas nacionales, provinciales y municipales · hoteles resort.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Promoción<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>UGC:</b> contenido generado por el usuario que publicita el destino.</li>
+        <li><b>Merchandising:</b> señalización en el punto de venta para vender más. En turismo: anuncio o señalización de las atracciones para los turistas.</li>
+        <li class="x"><b>Publicidad especializada:</b> souvenirs.</li>
+        <li class="x"><b>Imagen del país y de la zona:</b> marketing territorial.</li>
+      </ul>
+      <p class="quote">"Agreguen estos dos temas para la promoción en marketing turístico: UGC y merchandising."</p>
+    </div>
+    <h3 class="grp" id="c1-5">Marketing profesional</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Definición y diferencia con el personal<span class="src clase">De la clase · 15/09 · 03/11</span></p>
+      <p class="def"><b>Marketing profesional:</b> la planificación estratégica de marketing aplicada al ejercicio de una profesión liberal.</p>
+      <p class="def"><b>Diferencia con el personal:</b> el personal es más general y engloba al profesional: aplica los principios del marketing a toda la vida de la persona (personal y laboral). El profesional trata exclusivamente lo profesional, aplica todos los principios del personal y los amplía con sus estrategias. No se contradicen.</p>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Las seis estrategias<span class="src clase">De la clase · 15/09</span></p>
+      <ul>
+        <li><b>Cumplimiento:</b> cumplir el servicio en los estándares mínimos esperados (el piso).</li>
+        <li><b>Productividad:</b> todas las mejoras posibles, más allá de lo pedido.</li>
+        <li><b>Educación:</b> asesorar y capacitar al cliente y al entorno.</li>
+        <li><b>Comportamiento:</b> conducta ética: confidencialidad y lealtad al cliente.</li>
+        <li><b>Diferenciación:</b> técnica: un nivel de conocimiento que no tiene nadie más.</li>
+        <li><b>Valor agregado:</b> habilidades blandas (creatividad, liderazgo, habilidades interpersonales).</li>
+      </ul>
+    </div>
+    <div class="card x">
+      <p class="h-main"><span class="dot"></span>Marketing personal y personal branding<span class="src clase">De la clase · 15/09</span></p>
+      <ul>
+        <li><b>Marketing personal:</b> a partir de objetivos de la vida personal y/o profesional, elegir las estrategias y herramientas más adecuadas para conseguirlos, teniendo en cuenta a las personas con las que nos relacionamos (muchas veces en competencia) en un entorno cambiante.</li>
+        <li><b>Personal branding:</b> posicionar una serie de cualidades que te identifiquen y te diferencien de los demás.</li>
+        <li><b>4P a la persona:</b> producto (lo que ofrecés) · precio (cifra objetiva de tu trabajo) · plaza (contexto en que prestás el servicio) · promoción (redes, CV, tarjetas).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="unit reveal" id="c2" style="--accent:var(--u1)">
+    <div class="unit-head"><div class="unit-num">05</div>
+      <div class="unit-titles"><p class="u-kicker">Unidad 5</p><h2>Experiencial y neuromarketing</h2></div></div>
+    <span class="unit-weight">"unidad 5 completa, menos neotenia"</span>
+
+    <h3 class="grp" id="c2-1">Marketing experiencial</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Experiencia y marketing experiencial<span class="src hoja">Mis hojas + clase</span></p>
+      <p class="def"><b>Experiencia:</b> lo que almacena el cerebro a través de los sentidos, más el sentimiento de ese momento.</p>
+      <div class="chain"><span>Sensaciones de los 5 sentidos</span><i>→</i><span>Conceptos e ideas</span><i>→</i><span>Sentimientos y emociones</span><i>→</i><span>Experiencias</span></div>
+      <p class="def"><b>Marketing experiencial:</b> crear un ecosistema alrededor del producto que genere una experiencia previa a la compra y durante su consumo (el cliente elige por la vivencia que le ofrece).</p>
+    </div>
+    <div class="card x">
+      <p class="h-main"><span class="dot"></span>Características y objetivo<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li>El consumidor es escéptico (inmune) a los mensajes de marketing.</li>
+        <li>Utiliza los sentidos para crear sentimientos y emociones.</li>
+        <li>La experiencia agrega valor a las 4P.</li>
+        <li>Sensaciones a través del color, el aroma, el sonido y las formas.</li>
+      </ul>
+      <p class="note"><b>Objetivo:</b> diferenciarse de la competencia cuando los productos se volvieron commodities.</p>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Vías para generar experiencias<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Percepción</b> (percibir): asociación de ideas, ilusiones.</li>
+        <li><b>Sentimientos</b> (sentir).</li>
+        <li><b>Pensamientos</b> (pensar): hacer reflexionar.</li>
+        <li><b>Acción</b> (actuar): la persona interactúa.</li>
+        <li><b>Relación</b> (relacionarse socialmente): sentirse parte de un grupo o comunidad.</li>
+      </ul>
+      <p class="quote">"Vías para generar experiencias, esto es importante."</p>
+    </div>
+    <div class="card x">
+      <p class="h-main"><span class="dot"></span>Otras consideraciones<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li>Generar interés y atención.</li>
+        <li>Que la gente se sienta cómoda en el punto de venta.</li>
+        <li>Mantener al cliente el mayor tiempo posible.</li>
+        <li>La compra vista como experiencia placentera.</li>
+        <li>La música genera un ambiente de compra agradable; música y sonido apoyan el concepto de comunicación.</li>
+        <li>El entorno transformado en experiencia; espacios agradables.</li>
+        <li>Potenciar la asociación del elemento (marca, producto).</li>
+        <li>Los aromas diferencian y favorecen la memorización del contexto; las formas comunican.</li>
+      </ul>
+    </div>
+    <div class="card x">
+      <p class="h-main"><span class="dot"></span>Publicidad ATL y BTL<span class="src hoja">Mis hojas + clase</span></p>
+      <p class="simple">ATL = <i>above the line</i> (convencional) · BTL = <i>below the line</i> (no convencional: la parte publicitaria del marketing experiencial).</p>
+      <div class="grid2">
+        <div class="mini"><b>ATL</b><ul><li><b>Tipos:</b> TV · radio · medios impresos · cine · publicidad exterior</li><li><b>Ventajas:</b> mayor alcance · conexión con la audiencia · facilita el <i>brand building</i></li></ul></div>
+        <div class="mini"><b>BTL</b><ul><li>Interactiva, creativa, sorpresiva y de menor costo</li><li><b>Características:</b> medios alternativos, fuera de los masivos · nuevos canales (relación inmediata y directa) · audiencia definida · innovación · interacción directa con la marca</li><li><b>Tipos:</b> patrocinio · activaciones (ej. UGC) · mkt en punto de venta · product placement · publicidad online · mkt directo · RRPP · advergaming</li><li><b>Ventajas:</b> muy enfocada al segmento · mejor ROI · audiencia controlable · personalizable. <b>Desventaja:</b> menor alcance</li></ul></div>
+      </div>
+    </div>
+    <h3 class="grp" id="c2-2">Neuromarketing</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Definición y los tres cerebros<span class="src hoja">Mis hojas + clase</span></p>
+      <p class="def"><b>Neuromarketing:</b> la aplicación de técnicas de las neurociencias a los estímulos de marketing para entender cómo se activa el cerebro ante las acciones de marketing (Braidot).</p>
+      <div class="grid3">
+        <div class="mini"><b>Reptiliano</b>Supervivencia e instintos: actúa por impulso</div>
+        <div class="mini"><b>Límbico</b>Emociones: valoración de la marca</div>
+        <div class="mini"><b>Neocórtex (cognitivo)</b>Razonamiento: "me conviene o no"</div>
+      </div>
+      <p class="note">El estímulo tiene que entrar primero al límbico (o al reptiliano) y después al neocórtex.</p>
+    </div>
+    <div class="card x">
+      <p class="h-main"><span class="dot"></span>Mercado meta, segmentación y posicionamiento<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Cerebro vs. mente:</b> el cerebro es el sistema operativo (órgano biológico); la mente, las decisiones que tomamos dentro de ese sistema.</li>
+        <li><b>Mercado meta:</b> grupos de consumidores con estímulos y reacciones similares.</li>
+        <li><b>Segmentación:</b> división según la reacción biológica (los sentidos): una quinta base que se suma a las cuatro conocidas.</li>
+        <li><b>Tres tipos de posicionamiento:</b> cognitivo (neocórtex) · emocional (límbico) · instintivo (reptiliano).</li>
+        <li><b>Hombre y mujer:</b> cerebros distintos; la mujer distingue más colores y hace la mayoría de las compras.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Hemisferios: producto, precio y posicionamiento<span class="src hoja">Mis hojas + clase</span></p>
+      <div class="grid2">
+        <div class="mini"><b>Hemisferio izquierdo · lógica</b>Lenguaje · matemáticas · escritura · análisis · razonamiento</div>
+        <div class="mini"><b>Hemisferio derecho · emoción</b>Sentido emocional · música · espacio · arte · sensaciones</div>
+      </div>
+      <div class="fbox">El estímulo tiene que entrar por el hemisferio derecho antes que por el izquierdo</div>
+      <ul>
+        <li><b>Producto:</b> construcción perceptual (formas, texturas, colores): una percepción del cerebro a partir de los 5 sentidos.</li>
+        <li><b>Precio:</b> el cerebro hace un juicio de valor: compara recompensas contra sacrificios y lo juzga justo o injusto. Hay que apelar a la emoción (hemisferio derecho) antes de ese juicio.</li>
+        <li><b>Posicionamiento:</b> conexión neuronal entre el recuerdo de la marca y una idea, construida a través de los 5 sentidos.</li>
+      </ul>
+      <p class="quote">"Cómo se aplica el precio con respecto a los hemisferios, eso sí les puedo preguntar." "Que no parezca que solamente estudiaron el power."</p>
+    </div>
+    <div class="card x">
+      <p class="h-main"><span class="dot"></span>Distribución y promoción<span class="src hoja">Mis hojas + clase</span></p>
+      <ul>
+        <li><b>Distribución:</b> optimizar la experiencia neurológica (también el seguimiento del envío). Evitar líneas excesivas (saturación) · decorar el local minorista · disposición de productos · llegar a los sentidos en forma positiva.</li>
+        <li><b>Promoción:</b> neurocomunicación (el cerebro reacciona según cómo se comunica: la elección de palabras cambia la percepción) · atención y recordación · mensajes positivos y reiterados.</li>
+        <li><b>Neuronas espejo:</b> el cerebro duplica las emociones de los rostros que ve (base de la empatía).</li>
+        <li><b>Precio, ejemplo:</b> productos caros al lado de los no tan caros para que estos parezcan baratos.</li>
+      </ul>
+    </div>
+    <h3 class="grp" id="c2-3">Colores, formas y recursos del anuncio</h3>
+
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Colores y formas<span class="src hoja">Mis hojas + clase</span></p>
+      <div class="tbl-scroll"><table class="eco">
+        <tr><th>Color</th><th>Significado</th></tr>
+        <tr><td><b>Rojo</b></td><td>Acción, fuerza, pasión (hambre)</td></tr>
+        <tr><td><b>Amarillo</b></td><td>Armonía, positivismo</td></tr>
+        <tr><td><b>Azul</b></td><td>Confianza, autoridad</td></tr>
+        <tr><td><b>Naranja</b></td><td>Entusiasmo, juventud</td></tr>
+        <tr><td><b>Verde</b></td><td>Naturaleza, esperanza</td></tr>
+        <tr><td><b>Morado</b></td><td>Misterio, lujo</td></tr>
+        <tr><td><b>Rosado</b></td><td>Jovialidad, delicadeza</td></tr>
+        <tr><td><b>Negro</b></td><td>Poder, elegancia</td></tr>
+        <tr><td><b>Blanco</b></td><td>Sencillez, pureza</td></tr>
+        <tr><td><b>Gris</b></td><td>Moderación</td></tr>
+      </table></div>
+      <ul>
+        <li><b>Triángulo:</b> estabilidad (apoyado en un ángulo: inestabilidad y dinamismo).</li>
+        <li><b>Círculo:</b> movimiento; sirve para fijar la vista.</li>
+        <li><b>Cuadrado:</b> estabilidad continua.</li>
+      </ul>
+      <p class="quote">"¿Por qué no leen lo de los colores? Todo: colores, formas, vías."</p>
+    </div>
+    <div class="card">
+      <p class="h-main"><span class="dot"></span>Identidad visual y publicidad subliminal<span class="src hoja">Mis hojas + clase</span></p>
+      <div class="grid2">
+        <div class="mini"><b>Identidad visual</b><ul><li><b>Logotipo:</b> construcción tipográfica de la marca</li><li><b>Isotipo:</b> emblema o gráfico (símbolo, ícono)</li><li><b>Isologotipo:</b> texto y símbolo inseparables entre sí</li><li><b>Imagotipo:</b> texto y símbolo separables</li></ul></div>
+        <div class="mini"><b>Publicidad subliminal</b><ul><li>Anuncio captado por el inconsciente, por debajo de la percepción consciente</li><li><b>Subaudible:</b> sonidos no perceptibles conscientemente (mini jingle)</li><li><b>Subvisual:</b> imagen con doble sentido</li><li><b>Ambientaciones subliminales:</b> se transforma el ambiente en el que interactúa la persona</li><li><b>Emisiones de alta frecuencia:</b> un elemento que se repite tantas veces que queda en el subconsciente</li></ul></div>
+      </div>
+      <p class="note">¿Existe? Es discutible: si descubrís el trasfondo, lo percibís de forma consciente y deja de ser subliminal.</p>
+    </div>
+  </section>
+
+  </div><!-- /view-completo -->
+
+  <!-- ===================== QUIZ ===================== -->
+  <section id="view-quiz" class="modeview hidden">
+    <div class="qwrap">
+      <div class="qtop"><span>Pregunta <b id="q-idx">1</b> / <span id="q-total">0</span></span><span>Aciertos <b id="q-score">0</b></span><button class="btn ghost" id="q-restart">Reiniciar</button></div>
+      <div class="qcard" id="quiz-card"></div>
+    </div>
+  </section>
+
+  <!-- ===================== ESCRIBIR ===================== -->
+  <section id="view-escribir" class="modeview hidden">
+    <div class="qwrap">
+      <div class="qtop"><span>Pregunta <b id="e-idx">1</b> / <span id="e-total">0</span></span><span>De memoria <b id="e-score">0</b></span><button class="btn ghost" id="e-restart">Reiniciar</button></div>
+      <div class="qcard" id="esc-card"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>U4 (financiero, deportivo, turístico, profesional) · U5 completa sin neotenia · Gestión de Marketing</p>
+  </footer>
+
+</div>
+
+<script>
+  /* ============ AUTO-ACTUALIZADOR ============ */
+  /* Bump BUILD en cada deploy: las pestañas abiertas detectan la versión nueva y recargan solas. */
+  const BUILD='2026-11-09-6';
+  async function checkUpdate(){
+    try{
+      if(location.protocol==='file:')return;
+      const r=await fetch(location.pathname+'?_cb='+Math.floor(Date.now()/30000),{cache:'no-store'});
+      if(!r.ok)return;
+      const t=await r.text();
+      const m=t.match(/const BUILD='([^']+)'/);
+      if(!m||m[1]===BUILD)return;
+      const num=v=>v.split('-').map(Number);
+      const newer=(a,b)=>{const x=num(a),y=num(b);for(let i=0;i<Math.max(x.length,y.length);i++){if((x[i]||0)!==(y[i]||0))return (x[i]||0)>(y[i]||0);}return false;};
+      let done='';try{done=sessionStorage.getItem('reloadedFor')||'';}catch(e){}
+      if(newer(m[1],BUILD)&&done!==m[1]){try{sessionStorage.setItem('reloadedFor',m[1]);}catch(e){}location.reload();}
+    }catch(e){}
+  }
+  setInterval(checkUpdate,60000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkUpdate();});
+
+  /* Aparición de secciones: umbral 0 + respaldo a 1,5 s. */
+  const showAll=()=>document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:0,rootMargin:'0px 0px 120px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    setTimeout(showAll,1500);
+  }else{showAll();}
+  const chips={};document.querySelectorAll('.chip').forEach(c=>{const h=c.getAttribute('href');if(h&&h.startsWith('#'))chips[h.slice(1)]=c;});
+  const spy=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){
+    Object.values(chips).forEach(c=>c.style.cssText='');
+    const c=chips[e.target.id];if(c){c.style.background='var(--ink)';c.style.color='var(--paper)';}
+  }})},{rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('section.unit').forEach(s=>spy.observe(s));
+
+  /* ============ BANCO DE PREGUNTAS (las respuestas son las palabras del cuaderno) ============ */
+  const EC=[{"u": "Unidad 4 · Marketing de servicios", "c": "var(--u3)", "items": [{"q": "¿Qué busca el marketing financiero?", "a": "Eliminar la incertidumbre del consumidor para darle el mejor destino a su capital"}, {"q": "Concepto breve de marketing financiero", "a": "La aplicación del marketing operativo y estratégico a los bancos"}, {"q": "Cambios del mercado en la definición completa de marketing financiero", "a": "Liberalización financiera · globalización de los mercados · desintermediación · tecnología · nivel cultural y económico"}, {"q": "Elemento clave en la definición completa de marketing financiero", "a": "El cliente, cada vez más preparado, donde confluyen las acciones y estrategias para satisfacer sus necesidades de forma rentable y duradera"}, {"q": "Aspecto específico: percepción de la calidad", "a": "Es subjetiva"}, {"q": "Aspecto específico: precio", "a": "Pasa a segundo plano y se analiza cualitativamente"}, {"q": "Aspecto específico: psicología del dinero", "a": "Importan los destinos que se le da al dinero, no el dinero en sí"}, {"q": "Aspecto específico: relaciones con terceros", "a": "Se juzga la calidad de la institución por las caras visibles (oficial de crédito, gerente)"}, {"q": "Aspecto específico: costo", "a": "Se juzga por lo psicológico: reputación y conveniencia"}, {"q": "Aspecto específico: múltiples canales de venta", "a": "Muchos canales para realizar la misma operación"}, {"q": "¿Qué se posiciona en el marketing financiero y por qué?", "a": "La imagen corporativa por sobre el producto, porque el producto es homogéneo; el reto es superar la intangibilidad"}, {"q": "Precio abierto vs. encubierto", "a": "Abierto: todos los conceptos que se cobran figuran expresamente. Encubierto: quedan implícitos"}, {"q": "Definición de marketing deportivo", "a": "Volcar tu marca a una temática deportiva: vender a través del deporte"}, {"q": "Pilares del marketing deportivo", "a": "Pasión · ilusión · emoción"}, {"q": "Ramas del marketing deportivo", "a": "Comercializar productos y servicios deportivos a consumidores del deporte · usar el deporte como vehículo promocional de productos de consumo"}, {"q": "Participantes primarios, secundarios y terciarios", "a": "Primario: el que juega o practica · Secundario: directivos y árbitros · Terciario: periodistas y anunciantes (comunicación)"}, {"q": "Espectadores primarios, secundarios y terciarios", "a": "Primario: asiste presencialmente · Secundario: mira por medios de comunicación · Terciario: experimenta indirectamente (averigua el resultado o es socio de un club)"}, {"q": "¿Qué es el patrocinio?", "a": "Forma de anunciar al anunciante de manera personalizada y muy exclusiva; marketing aplicado a un consumidor industrial (el patrocinador)"}, {"q": "Características de la industria deportiva", "a": "Intangible, no almacenable, calidad variable · componente emocional · participación activa del consumidor · gestión de la variedad de productos · gestión de la marca"}, {"q": "Estrategias del marketing deportivo", "a": "Especialización · diversificación · diferenciación · crecimiento interno · crecimiento externo"}, {"q": "Concepto de marketing turístico", "a": "Adapta la oferta de servicios turísticos de un lugar a la demanda de turistas locales, regionales, nacionales e internacionales"}, {"q": "Promoción en marketing turístico: los dos temas que pidió agregar", "a": "UGC (contenido generado por el usuario) y merchandising (señalización de las atracciones para los turistas)"}, {"q": "Precio en marketing turístico", "a": "Por estacionalidad · de paridad (parecido a la competencia)"}, {"q": "Producto en marketing turístico", "a": "Matriz de Ansoff: penetración · desarrollo de mercado · desarrollo de producto · diversificación"}, {"q": "Definición de marketing profesional", "a": "La planificación estratégica de marketing aplicada al ejercicio de una profesión liberal"}, {"q": "Diferencia entre marketing profesional y personal", "a": "El personal es más general y engloba al profesional (toda la vida de la persona). El profesional trata solo lo profesional, aplica los principios del personal y los amplía con sus estrategias"}, {"q": "Estrategias del marketing profesional", "a": "Cumplimiento · productividad · educación · comportamiento · diferenciación · valor agregado"}, {"q": "Estrategia de comportamiento y de valor agregado (mkt profesional)", "a": "Comportamiento: confidencialidad y lealtad al cliente. Valor agregado: habilidades blandas (creatividad, liderazgo)"}]}, {"u": "Unidad 5 · Experiencial y neuromarketing", "c": "var(--u1)", "items": [{"q": "¿Qué es una experiencia?", "a": "Lo que almacena el cerebro a través de los sentidos, más el sentimiento de ese momento"}, {"q": "Definición de marketing experiencial", "a": "Crear un ecosistema alrededor del producto que genere una experiencia previa a la compra y durante su consumo"}, {"q": "Vías para generar experiencias", "a": "Percepción · sentimientos · pensamientos · acción · relación (relacionarse socialmente)"}, {"q": "Características del marketing experiencial", "a": "Consumidor escéptico · usa los sentidos para crear emociones · la experiencia agrega valor a las 4P · sensaciones por color, aroma, sonido y formas"}, {"q": "Tipos de publicidad ATL", "a": "TV · radio · medios impresos · cine · publicidad exterior"}, {"q": "Tipos de publicidad BTL", "a": "Patrocinio · activaciones · mkt en punto de venta · product placement · publicidad online · mkt directo · RRPP · advergaming"}, {"q": "Ventajas de la BTL", "a": "Muy enfocada al segmento · mejor ROI · audiencia controlable · personalizable"}, {"q": "Definición de neuromarketing", "a": "La aplicación de técnicas de las neurociencias a los estímulos de marketing para entender cómo se activa el cerebro ante las acciones de marketing"}, {"q": "Los tres cerebros", "a": "Reptiliano: supervivencia, impulso · Límbico: emociones · Neocórtex: razonamiento"}, {"q": "¿Por qué hemisferio tiene que entrar el estímulo?", "a": "Por el derecho (emocional) antes que por el izquierdo (lógico)"}, {"q": "El producto en neuromarketing", "a": "Una construcción perceptual (formas, texturas, colores) a partir de los 5 sentidos"}, {"q": "El precio en neuromarketing", "a": "El cerebro hace un juicio de valor: compara recompensas y sacrificios y lo juzga justo o injusto; hay que apelar a la emoción antes"}, {"q": "El posicionamiento en neuromarketing", "a": "Conexión neuronal entre el recuerdo de la marca y una idea, a través de los 5 sentidos"}, {"q": "Segmentación en neuromarketing", "a": "División según la reacción biológica (los sentidos)"}, {"q": "¿Qué son las neuronas espejo?", "a": "Hacen que el cerebro duplique las emociones de los rostros que ve"}, {"q": "Logotipo vs. isotipo", "a": "Logotipo: construcción tipográfica de la marca. Isotipo: emblema o gráfico"}, {"q": "Isologotipo vs. imagotipo", "a": "Isologotipo: texto y símbolo inseparables. Imagotipo: texto y símbolo separables"}, {"q": "Tipos de publicidad subliminal", "a": "Mensaje subaudible · mensaje subvisual · ambientaciones subliminales · emisiones de alta frecuencia"}, {"q": "Emisiones de alta frecuencia", "a": "Un elemento que se repite tantas veces que queda en el subconsciente"}, {"q": "Significado del rojo, el azul y el amarillo", "a": "Rojo: acción, fuerza, pasión · Azul: confianza, autoridad · Amarillo: armonía, positivismo"}, {"q": "Significado del verde, el negro y el blanco", "a": "Verde: naturaleza, esperanza · Negro: poder, elegancia · Blanco: sencillez, pureza"}, {"q": "Significado del triángulo, el círculo y el cuadrado", "a": "Triángulo: estabilidad · Círculo: movimiento, fija la vista · Cuadrado: estabilidad continua"}]}];
+  const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+  const flat=EC.flatMap(t=>t.items.map(it=>({...it,u:t.u,c:t.c})));
+
+  /* ---- QUIZ ---- */
+  let quiz=[],qi=0,qscore=0;
+  function buildQuiz(){
+    quiz=shuffle(EC.flatMap(t=>t.items.map(it=>{
+      let pool=t.items.filter(x=>x.a!==it.a).map(x=>x.a);
+      if(pool.length<3)pool=pool.concat(shuffle(flat.filter(x=>x.u!==t.u).map(x=>x.a)));
+      return {u:t.u,c:t.c,q:it.q,correct:it.a,options:shuffle([it.a,...shuffle(pool).slice(0,3)])};
+    })));
+    qi=0;qscore=0;document.getElementById('q-total').textContent=quiz.length;renderQ();
+  }
+  function renderQ(){
+    document.getElementById('q-idx').textContent=qi+1;
+    document.getElementById('q-score').textContent=qscore;
+    const it=quiz[qi],card=document.getElementById('quiz-card');
+    card.style.setProperty('--accent',it.c);
+    card.innerHTML='<div class="qgroup">'+it.u+'</div><div class="qq">'+it.q+'</div><div id="opts">'+it.options.map((o,i)=>'<button class="opt" data-i="'+i+'">'+o+'</button>').join('')+'</div><div class="fb" id="fb"></div><div class="qactions"><button class="btn hidden" id="q-next">Siguiente →</button></div>';
+    const opts=card.querySelectorAll('.opt');
+    opts.forEach(b=>b.addEventListener('click',()=>{
+      const ok=it.options[+b.dataset.i]===it.correct;
+      opts.forEach(x=>{x.disabled=true;if(it.options[+x.dataset.i]===it.correct){x.classList.add('correct');x.innerHTML+=' <span class="mk">✓</span>';}});
+      const fb=document.getElementById('fb');
+      if(ok){qscore++;fb.textContent='¡Correcto!';fb.className='fb ok';}
+      else{b.classList.add('wrong');b.innerHTML+=' <span class="mk">✕</span>';fb.textContent='La respuesta correcta es la marcada en verde.';fb.className='fb no';}
+      document.getElementById('q-score').textContent=qscore;
+      const n=document.getElementById('q-next');n.classList.remove('hidden');
+      n.textContent=qi+1<quiz.length?'Siguiente →':'Ver resultado';
+      n.onclick=()=>{qi+1<quiz.length?(qi++,renderQ()):resultQ();};
+    }));
+  }
+  function resultQ(){
+    const pct=Math.round(qscore/quiz.length*100),card=document.getElementById('quiz-card');
+    card.style.setProperty('--accent','var(--brand)');
+    card.innerHTML='<div class="qgroup">Resultado</div><div class="qq">'+qscore+'/'+quiz.length+' · '+pct+'%</div><p style="color:var(--ink-soft);margin-bottom:20px">'+(pct>=80?'Te lo sabés.':pct>=50?'Vas bien; repasá las que fallaste.':'Volvé al Resumen y reintentá.')+'</p><div class="qactions"><button class="btn" id="q-again">Reintentar</button></div>';
+    document.getElementById('q-idx').textContent=quiz.length;
+    document.getElementById('q-again').onclick=buildQuiz;
+  }
+
+  /* ---- ESCRIBIR ---- */
+  let esc=[],ei=0,escore=0;
+  function buildEsc(){esc=shuffle(flat);ei=0;escore=0;document.getElementById('e-total').textContent=esc.length;renderE();}
+  function renderE(){
+    document.getElementById('e-idx').textContent=ei+1;
+    document.getElementById('e-score').textContent=escore;
+    const it=esc[ei],card=document.getElementById('esc-card');
+    card.style.setProperty('--accent',it.c);
+    card.innerHTML='<div class="qgroup">'+it.u+'</div><div class="qq">'+it.q+'</div><textarea id="e-input" class="esc-input" placeholder="Escribí tu respuesta de memoria…  (Ctrl+Enter para revelar)" spellcheck="false"></textarea><div class="qactions"><button class="btn" id="e-reveal">Revelar respuesta</button></div><div id="e-answer" class="esc-answer hidden"></div>';
+    const ta=document.getElementById('e-input');ta.focus();
+    function reveal(){
+      if(ta.disabled)return;
+      const yours=(ta.value.trim()||'(no escribiste nada)').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+      const ans=document.getElementById('e-answer');
+      ans.innerHTML='<div class="esc-yours"><span class="esc-lbl">Lo que escribiste</span><p>'+yours+'</p></div><div class="esc-ok"><span class="esc-lbl">La respuesta</span><p class="ans">'+it.a+'</p></div><div class="esc-rate">¿Te salió de memoria?<button class="rate" data-r="1">Sí</button><button class="rate" data-r="m">Más o menos</button><button class="rate" data-r="0">No</button></div>';
+      ans.classList.remove('hidden');
+      document.getElementById('e-reveal').disabled=true;ta.disabled=true;
+      ans.querySelectorAll('.rate').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.r==='1')escore++;ei+1<esc.length?(ei++,renderE()):resultE();}));
+      ans.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+    ta.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')reveal();});
+    document.getElementById('e-reveal').addEventListener('click',reveal);
+  }
+  function resultE(){
+    document.getElementById('e-idx').textContent=esc.length;
+    document.getElementById('e-score').textContent=escore;
+    const card=document.getElementById('esc-card');card.style.setProperty('--accent','var(--brand)');
+    card.innerHTML='<div class="qgroup">Resultado</div><div class="qq">'+escore+'/'+esc.length+' de memoria</div><div class="qactions"><button class="btn" id="e-again">Reintentar</button></div>';
+    document.getElementById('e-again').onclick=buildEsc;
+  }
+
+  /* ---- NAVEGACIÓN DE MODOS ---- */
+  const views={resumen:document.getElementById('view-resumen'),completo:document.getElementById('view-completo'),quiz:document.getElementById('view-quiz'),escribir:document.getElementById('view-escribir')};
+  document.getElementById('modes').addEventListener('click',e=>{
+    const b=e.target.closest('button');if(!b)return;
+    document.querySelectorAll('#modes button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const m=b.dataset.mode;
+    Object.entries(views).forEach(([k,el])=>el.classList.toggle('hidden',k!==m));
+    document.getElementById('navchips').style.display=m==='resumen'?'':'none';document.getElementById('navchips-c').style.display=m==='completo'?'':'none';
+    if(m==='quiz'&&!quiz.length)buildQuiz();
+    if(m==='escribir'&&!esc.length)buildEsc();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+  document.getElementById('q-restart').addEventListener('click',buildQuiz);
+  document.getElementById('e-restart').addEventListener('click',buildEsc);
+</script>
+</body>
+</html>
